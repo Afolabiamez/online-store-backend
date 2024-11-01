@@ -2,10 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose')
 const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 app.use(express.json());
-app.use('/api/products', productRoutes);
+
+app.use('/api/productRoutes', productRoutes);
+app.use('/api/orderRoutes', productRoutes);
+app.use('/api/userRoutes', productRoutes);
 
 // connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

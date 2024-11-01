@@ -1,19 +1,16 @@
 const express = require('express');
+const productController = require('../controllers/productController')
 const router = express.Router();
-const Product = require('../models/Product');
+
 
 // sample product route
 router.get('/', (req, res) => {
     res.send('Product List');
 });
 
-router.get('/', async (req, res) => {
-    try {
-        const products = await Product.find();
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+router.post('/', productController.createProduct);
+router.get('/', productController.getProduct);
+router.put('/:id', productController.updateProduct);
+router.delete('/:id', productController.deleteProduct);
 
 module.exports = router;
