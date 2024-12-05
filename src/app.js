@@ -21,23 +21,17 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.error('Failed to connect to MongoDB', err));
 
 // sample route
-app.get('/productRoutes/:id', async (req, res) => {
-    try {
-        const product = await Product.findById(req.params.id);
-        if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
-        res.json(product);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
-    }
-});
-
-app.get('/newproduct', async (req, res) => {
-    const newproduct = new Product({ name: 'Nike SB', discribtion: 'Male Sneaker', price: 50000, stock: 15 });
-    await newproduct.save();
-    res.send(newproduct);
-});
+// app.get('/productRoutes/:id', async (req, res) => {
+//     try {
+//         const product = await Product.findById(req.params.id);
+//         if (!product) {
+//             return res.status(404).json({ message: 'Product not found' });
+//         }
+//         res.json(product);
+//     } catch (error) {
+//         res.status(500).json({ message: 'Server error', error });
+//     }
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
