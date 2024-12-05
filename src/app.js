@@ -1,31 +1,49 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose')
+const cors = require('cors');
+const Product = require('./models/Product')
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-app.use('/api/productRoutes', productRoutes);
-app.use('/api/orderRoutes', productRoutes);
-app.use('/api/userRoutes', productRoutes);
+app.use('/productRoutes', productRoutes);
+app.use('/orderRoutes', productRoutes);
+app.use('/userRoutes', productRoutes);
 
 // connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    userNewUrlParser: true,
-    userUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Failed to connect to MongoDB', err));
 
 // sample route
-app.get('/', (req, res) => {
-    res.send('Welcome To Amez Online Store!');
+app.get('/productRoutes/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+app.get('/newproduct', async (req, res) => {
+    const newproduct = new Product({ name: 'Nike SB', discribtion: 'Male Sneaker', price: 50000, stock: 15 });
+    await newproduct.save();
+    res.send(newproduct);
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);
 });
+
+app.get('*', (req, res) => {
+    res.send('i dont know this path!!')
+})

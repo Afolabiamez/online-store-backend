@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.post('/', orderController.createOrder);
-router.get('/', orderController.getOrder);
+router.get('/', orderController.getOrders);
 router.put('/:id', orderController.updateOrder);
 router.delete('/:id', orderController.deleteOrder);
 
