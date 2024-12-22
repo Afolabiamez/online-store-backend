@@ -6,14 +6,18 @@ const Product = require('./models/Product')
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+// const cart = require('./routes/cart');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 app.use('/productRoutes', productRoutes);
-app.use('/orderRoutes', productRoutes);
-app.use('/userRoutes', productRoutes);
+app.use('/orderRoutes', orderRoutes);
+app.use('/userRoutes', userRoutes);
+app.use('/auth', authRoutes);
+// app.use('/cart', cart);
 
 // connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
